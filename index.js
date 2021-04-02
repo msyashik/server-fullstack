@@ -26,8 +26,8 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 client.connect((err) => {
-  const productsCollection = client.db("grocerygrow").collection("products");
-  const orderCollection = client.db("grocerygrow").collection("orders");
+  const productsCollection = client.db("grocerybro").collection("products");
+  const orderCollection = client.db("grocerybro").collection("orders");
 
   app.post("/addProduct", (req, res) => {
     const newProduct = req.body;
