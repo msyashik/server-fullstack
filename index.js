@@ -5,9 +5,10 @@ const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const port = process.env.PORT || 5000;
+
 const admin = require("firebase-admin");
+
 const serviceAccount = require("./.configs/grocerygrow-fa17c-firebase-adminsdk-khmnz-7092d39917.json");
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.q0qwx.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -18,8 +19,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello from Grocery Brother!");
+  res.send("Hello World!");
 });
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.q0qwx.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -50,6 +53,7 @@ client.connect((err) => {
         res.send(documents[0]);
       });
   });
+
   app.post("/addOrder", (req, res) => {
     const newOrder = req.body;
     orderCollection.insertOne(newOrder).then((result) => {
@@ -83,12 +87,14 @@ client.connect((err) => {
       res.status(401).send("Unauthorized access");
     }
   });
+
   app.delete("/deleteProduct/:id", (req, res) => {
     const id = ObjectID(req.params.id);
-    console.log("DELETING", id);
+    // console.log("DELETING", id);
     productsCollection.findOneAndDelete({ _id: id }).then((result) => {
       res.send(result.deletedCount > 0);
     });
   });
 });
+
 app.listen(port);
