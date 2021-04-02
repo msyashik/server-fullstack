@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
@@ -13,7 +14,6 @@ admin.initializeApp({
   databaseURL: `https://${process.env.DB_NAME}.firebaseio.com`,
 });
 
-require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
